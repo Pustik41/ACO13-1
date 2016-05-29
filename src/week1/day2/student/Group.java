@@ -37,7 +37,7 @@ public class Group {
 
     public void showGroup(){
         for (int i = 0; i < counter; i++) {
-            System.out.println(students[i].asString());
+            System.out.println(students[i].toString());
         }
     }
 

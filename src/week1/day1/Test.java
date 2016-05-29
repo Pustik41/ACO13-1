@@ -9,7 +9,7 @@ public class Test {
 
 
 
-        /*String personInfo = person.asString();
+        /*String personInfo = person.toString();
         System.out.println(personInfo);*/
 
         System.out.println(person.asString());
