@@ -1,47 +1,49 @@
 package week1.day2.student;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * Created by gorobec on 22.05.16.
  */
 public class Group {
-    private static final int GROUP_SIZE = 20;
     private int counter;
     private String name;
-    private Student[] students;
+    private List<Student> students;
+    private Comparator<Student> comparator = new AgeComparator();
 
     public Group(String name) {
         this.name = name;
-        this.students = new Student[GROUP_SIZE];
+        this.students = new ArrayList<>();
     }
 
     public Group(String name, int groupSize) {
         this.name = name;
-        this.students = new Student[groupSize];
+        this.students = new ArrayList<>(groupSize);
     }
 
-    public Group(String name, Student[] students) {
-        this.name = name;
-        this.students = students;
-    }
 
     public boolean addStudent(Student student){
         if(student == null) return false;
-        if(counter >= students.length) return false;
-
 //               todo check if already present in group
+        if(!students.contains(student)){
+            students.add(student);
+            counter++;
+            return true;
+        }
+        return false;
 
-        students[counter] = student;
-        counter++;
-        return true;
     }
 
     public void showGroup(){
         for (int i = 0; i < counter; i++) {
-            System.out.println(students[i].toString());
+            System.out.println(students.get(i));
         }
     }
 
-    public Student search(String name){
+    public final Student search(final String name){
         return null;
     }
 
@@ -49,5 +51,11 @@ public class Group {
         return false;
     }
 
+    public void sort(){
+        Collections.sort(students, comparator);
+    }
 
+    public void setComparator(Comparator<Student> comparator) {
+        this.comparator = comparator;
+    }
 }

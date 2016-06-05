@@ -12,7 +12,7 @@ public class TDD {
 
         Student st1 = new Student("Alex",
                 new MyDate(1989, 12, 12),
-                'M');
+                Gender.MALE);
 
         boolean expected = true;
         boolean actual = group.addStudent(st1);

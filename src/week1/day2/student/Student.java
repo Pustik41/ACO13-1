@@ -6,18 +6,21 @@ import utils.MyDate;
  */
 public class Student implements Comparable{
 
+
+    private final int scolarship;
     private String name;
-
     private MyDate birthDay;
-
     private double averageMark;
-    private char gender;
+    private Gender gender;
 
-    public Student(String name, MyDate birthDay, char gender) {
+    public Student(String name, MyDate birthDay, Gender gender) {
         this.birthDay = birthDay;
         this.name = name;
         this.gender = gender;
+        scolarship = 500;
     }
+
+
 
     public String getName() {
         return name;
@@ -31,7 +34,7 @@ public class Student implements Comparable{
         return averageMark;
     }
 
-    public char getGender() {
+    public Gender getGender() {
         return gender;
     }
 
