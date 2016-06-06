@@ -11,10 +11,9 @@ public enum Gender {
         }
 
     },FEMALE{
-        public void sing(){
+        public void say(){
             System.out.println("Female");
         }
     };
-
-
+    public abstract void say();
 }
