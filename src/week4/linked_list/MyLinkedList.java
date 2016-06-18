@@ -1,4 +1,4 @@
-package week3.day2;
+package week4.linked_list;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -6,19 +6,12 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
- * Created by gorobec on 05.06.16.
+ * Created by gorobec on 18.06.16.
  */
 public class MyLinkedList implements List {
-
-
     private Node head;
     private Node tail;
     private int size;
-
-
-    public MyLinkedList() {
-    }
-
     @Override
     public int size() {
         return size;
@@ -46,16 +39,17 @@ public class MyLinkedList implements List {
 
     @Override
     public boolean add(Object o) {
-
         if(head == null){
             head = tail = new Node(o);
             size++;
             return true;
         }
-        tail.next = new Node(tail, o);
-        tail = tail.next;
 
-        return false;
+        Node newNode = new Node(tail, o);
+        tail.setNext(newNode);
+        tail = newNode;
+        size++;
+        return true;
     }
 
     @Override
@@ -77,15 +71,38 @@ public class MyLinkedList implements List {
     public void clear() {
 
     }
-
+//todo Exception
     @Override
     public Object get(int index) {
-        return null;
+        if(index >= size || index < 0) {
+            System.err.println("IndexOutOfBound!!!");
+            return null;
+        }
+        Node iter = head;
+        for (int i = 0; i < index; i++) {
+            iter = iter.getNext();
+        }
+
+        return iter.getValue();
     }
 
     @Override
     public Object set(int index, Object element) {
-        return null;
+
+        if(index >= size || index < 0) {
+            System.err.println("IndexOutOfBound!!!");
+            return null;
+        }
+        Node iter = head;
+        for (int i = 0; i < index; i++) {
+            iter = iter.getNext();
+        }
+
+        Object toReturn = iter.getValue();
+
+        iter.setValue(element);
+
+        return toReturn;
     }
 
     @Override
@@ -142,7 +159,4 @@ public class MyLinkedList implements List {
     public Object[] toArray(Object[] a) {
         return new Object[0];
     }
-
-
-
 }
