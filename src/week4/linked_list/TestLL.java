@@ -8,7 +8,8 @@ import java.util.List;
 public class TestLL {
     public static void main(String[] args) {
 
-        List list = new MyLinkedList();
+
+        List<Integer> list = new MyLinkedList<>();
 
 
 
@@ -21,6 +22,17 @@ public class TestLL {
         System.out.printf("Metod add, result %s, actual - %d, expected %d\n", result, actual, expected);
 
         list.add(15);
+        list.add(25);
+
+        for (Object o : list) {
+            System.out.println(o);
+        }
+
+        expected = 2;
+         actual = list.indexOf(25);
+        result = actual == expected;
+
+        System.out.printf("Metod indexOf, result %s, actual - %d, expected %d\n", result, actual, expected);
 
         expected = 2;
          actual = list.size();
@@ -32,10 +44,36 @@ public class TestLL {
 
 
         expected = 5;
-        actual = (Integer)list.get(3);
+        actual = (Integer)list.get(0);
         result = actual == expected;
 
         System.out.printf("Metod get, result %s, actual - %d, expected %d\n", result, actual, expected);
+
+        expected = 5;
+        actual = (Integer)list.remove(0);
+        result = actual == expected;
+
+        System.out.printf("Metod get, result %s, actual - %d, expected %d\n", result, actual, expected);
+
+        expected = 25;
+        actual = (Integer)list.remove(1);
+        result = actual == expected;
+
+        System.out.printf("Metod remove, result %s, actual - %d, expected %d\n", result, actual, expected);
+
+
+        expected = 15;
+        actual = (Integer)list.remove(0);
+        result = actual == expected;
+
+        System.out.printf("Metod remove, result %s, actual - %d, expected %d\n", result, actual, expected);
+
+        expected = 15;
+        actual = (Integer)list.remove(0);
+        result = actual == expected;
+
+        System.out.printf("Metod remove, result %s, actual - %d, expected %d\n", result, actual, expected);
+
 
     }
 }

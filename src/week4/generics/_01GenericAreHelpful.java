@@ -9,10 +9,10 @@ import java.util.List;
 public class _01GenericAreHelpful {
 
     public static void main(String[] args) {
-        List<String> list = new ArrayList<>();
-        list.add(null);
+        List list = new ArrayList();
+        list.add(5);
         list.add("Ddd");
-
+//      ClassCastException
         String s = (String)list.get(0);
     }
 

@@ -8,9 +8,9 @@ import java.util.ListIterator;
 /**
  * Created by gorobec on 18.06.16.
  */
-public class MyLinkedList implements List {
-    private Node head;
-    private Node tail;
+public class MyLinkedList<T> implements List<T> {
+    private Node<T> head;
+    private Node<T> tail;
     private int size;
     @Override
     public int size() {
@@ -28,13 +28,14 @@ public class MyLinkedList implements List {
     }
 
     @Override
-    public Iterator iterator() {
-        return null;
+    public Iterator<T> iterator() {
+        return new MyIterator();
     }
 
+
     @Override
-    public Object[] toArray() {
-        return new Object[0];
+    public T[] toArray() {
+        return (T[])new Object[0];
     }
 
     @Override
@@ -46,7 +47,7 @@ public class MyLinkedList implements List {
         }
 
         Node newNode = new Node(tail, o);
-        tail.setNext(newNode);
+        tail.next = newNode;
         tail = newNode;
         size++;
         return true;
@@ -73,51 +74,86 @@ public class MyLinkedList implements List {
     }
 //todo Exception
     @Override
-    public Object get(int index) {
-        if(index >= size || index < 0) {
-            System.err.println("IndexOutOfBound!!!");
-            return null;
-        }
-        Node iter = head;
-        for (int i = 0; i < index; i++) {
-            iter = iter.getNext();
-        }
+    public T get(int index) {
 
-        return iter.getValue();
+        Node<T> iter = findNode(index);
+
+        return iter.value;
+    }
+
+    private Node<T> findNode(int index) {
+        if(index >= size || index < 0) {
+            System.exit(1);
+        }
+        Node<T> iter = head;
+        for (int i = 0; i < index; i++) {
+            iter = iter.next;
+        }
+        return iter;
     }
 
     @Override
-    public Object set(int index, Object element) {
+    public T set(int index, T element) {
 
-        if(index >= size || index < 0) {
-            System.err.println("IndexOutOfBound!!!");
-            return null;
-        }
-        Node iter = head;
-        for (int i = 0; i < index; i++) {
-            iter = iter.getNext();
-        }
+        Node<T> iter = findNode(index);
+        T toReturn = iter.value;
 
-        Object toReturn = iter.getValue();
-
-        iter.setValue(element);
+        iter.value = element;
 
         return toReturn;
     }
 
     @Override
-    public void add(int index, Object element) {
+    public void add(int index, T element) {
 
     }
 
     @Override
-    public Object remove(int index) {
-        return null;
+    public T remove(int index) {
+
+        Node<T> iter = findNode(index);
+        if(iter == head){
+            head = iter.next;
+            if(iter.next == null){
+                head = tail = null;
+            } else {
+                head.previous = null;
+                iter.next = null;
+            }
+        } else if(iter == tail){
+            tail = iter.previous;
+            tail.next = null;
+            iter.previous = null;
+
+        } else {
+//        previous-> me -> next --->  previous -> next
+            iter.previous.next = iter.next;
+//        previous<- me <- next ---> previous <- next
+            iter.next.previous = iter.previous;
+            iter.previous = null;
+            iter.next = null;
+        }
+        size--;
+        return iter.value;
     }
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+
+        Node<T> iter = head;
+
+        if(o == null){
+            for (int i = 0; i < size; i++) {
+                if(iter.value == null) return i;
+                iter = iter.next;
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                if(o.equals(iter.value)) return i;
+                iter = iter.next;
+            }
+        }
+        return -1;
     }
 
     @Override
@@ -127,11 +163,14 @@ public class MyLinkedList implements List {
 
     @Override
     public ListIterator listIterator() {
+//        NOP
         return null;
     }
 
     @Override
     public ListIterator listIterator(int index) {
+        //        NOP
+
         return null;
     }
 
@@ -157,6 +196,52 @@ public class MyLinkedList implements List {
 
     @Override
     public Object[] toArray(Object[] a) {
+        //        NOP
         return new Object[0];
+    }
+
+    private static class Node<T> {
+        Node<T> next;
+        Node<T> previous;
+        T value;
+
+
+        public Node(){
+        }
+
+        public Node(T value) {
+            this.value = value;
+        }
+
+        public Node(Node<T> next, Node<T> previous, T value) {
+            this.next = next;
+            this.previous = previous;
+            this.value = value;
+        }
+        public Node(Node<T> previous, T value) {
+            this.previous = previous;
+            this.value = value;
+        }
+    }
+
+    private class MyIterator implements Iterator{
+
+        Node<T> iterator;
+
+        public MyIterator(){
+            iterator = new Node<>();
+            iterator.next = head;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return iterator.next != null;
+        }
+
+        @Override
+        public T next() {
+            iterator = iterator.next;
+            return iterator.value;
+        }
     }
 }
