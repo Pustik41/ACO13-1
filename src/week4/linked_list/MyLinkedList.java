@@ -83,7 +83,7 @@ public class MyLinkedList<T> implements List<T> {
 
     private Node<T> findNode(int index) {
         if(index >= size || index < 0) {
-            System.exit(1);
+            throw new MyIndexOutOfBoundException(String.valueOf(index));
         }
         Node<T> iter = head;
         for (int i = 0; i < index; i++) {
